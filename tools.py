@@ -1,4 +1,5 @@
 from aiogram import types
+from db.users import Users
 
 
 def extract_file_id(message: types.Message):
@@ -14,3 +15,12 @@ def extract_file_id(message: types.Message):
         case _:
             file_id = None
     return file_id
+
+
+def extract_user_fullname(user: Users):
+    fullname = user.first_name + ' ' + user.last_name
+
+    if fullname == ' ':
+        fullname = user.username
+    return fullname
+

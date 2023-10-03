@@ -4,7 +4,6 @@ from handlers import register_all_handlers
 import asyncio
 from tasks import scheduler
 from db.db_init import engine, Base
-from db.likes import Likes
 
 
 register_all_handlers(dp)

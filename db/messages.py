@@ -4,6 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 import logging
 from sqlalchemy.types import Boolean
 from db.db_init import Base, engine
+from sqlalchemy import func
+from sqlalchemy import desc, asc
 
 logging.basicConfig(filename="main.log", level=logging.DEBUG, filemode="w",
                     format="%(asctime)s %(levelname)s %(message)s")
@@ -72,4 +74,43 @@ def like_db_message(msg_id):
             # return error if something went wrong
             session.rollback()
             log.info(e)
+            raise e
+
+
+def get_likedest_bd_msg():
+    with Session(engine) as session:
+        # session.expire_on_commit = False
+        try:
+            return session.query(Messages).order_by('count_of_likes').first()
+        except exc.IntegrityError as e:
+            # return error if something went wrong
+            session.rollback()
+            log.error(e)
+            raise e
+
+
+def get_id_user_has_the_most_likes(chat_id):
+    with Session(engine) as session:
+        # session.expire_on_commit = False
+        try:
+            return session.query(Messages.from_chat_id, func.sum(Messages.count_of_likes)).\
+                filter_by(chat_id=chat_id).\
+                group_by(Messages.from_chat_id).\
+                order_by(desc(func.sum(Messages.count_of_likes))).first()
+        except exc.IntegrityError as e:
+            # return error if something went wrong
+            session.rollback()
+            log.error(e)
+            raise e
+
+
+def get_all_chat_id():
+    with Session(engine) as session:
+        # session.expire_on_commit = False
+        try:
+            return session.query(Messages.chat_id).group_by(Messages.chat_id).all()
+        except exc.IntegrityError as e:
+            # return error if something went wrong
+            session.rollback()
+            log.error(e)
             raise e
