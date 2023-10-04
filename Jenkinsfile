@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-       tgBot_id = credentials('kin_of_memes_bot')
+       tgBot_id = credentials('kin_of_memes_bot_id')
        my_chat_id = credentials('my_chat_id')
     }
     options {
