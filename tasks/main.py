@@ -1,12 +1,13 @@
 import aioschedule
 import asyncio
-from config import TIME_TO_INAUGURATION
-from config import DAY_TO_INAUGURATION
 from tasks.inauguration import do_inauguration
+from config import INAUGURATION_DAY, INAUGURATION_TIME
 
 
 async def scheduler():
-    aioschedule.every().minute.do(do_inauguration)
+    my_code = f'aioschedule.every().{INAUGURATION_DAY}.at("{INAUGURATION_TIME}").do(do_inauguration)'
+    exec(my_code)
+    # aioschedule.every().sunday.at('18:00').do(do_inauguration)
     while True:
         await aioschedule.run_pending()
         await asyncio.sleep(1)
