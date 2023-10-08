@@ -18,9 +18,12 @@ def extract_file_id(message: types.Message):
 
 
 def extract_user_fullname(user: Users):
-    fullname = user.first_name + ' ' + user.last_name
-
-    if fullname == ' ':
+    fullname = ''
+    if user.first_name:
+        fullname += user.first_name
+    if user.last_name:
+        fullname += user.last_name
+    if fullname == '':
         fullname = user.username
     return fullname
 
