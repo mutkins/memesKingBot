@@ -23,7 +23,7 @@ def extract_user_fullname(user: Users):
         fullname += user.first_name
     if user.last_name:
         fullname += user.last_name
-    if fullname == '':
-        fullname = user.username
+    if user.username:
+        fullname += user.username
     return fullname
 
