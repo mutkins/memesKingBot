@@ -1,15 +1,11 @@
 from sqlalchemy import create_engine, select, Table, Column, Integer, String, MetaData, ForeignKey, exc, DateTime
 from sqlalchemy.orm import mapper, relationship, sessionmaker, Session
 from sqlalchemy.ext.declarative import declarative_base
-import logging
+from logger import log
 from sqlalchemy.types import Boolean
 from db.db_init import Base, engine
 from sqlalchemy import func
 from sqlalchemy import desc, asc
-
-logging.basicConfig(filename="main.log", level=logging.DEBUG, filemode="w",
-                    format="%(asctime)s %(levelname)s %(message)s")
-log = logging.getLogger("main")
 
 
 class Messages(Base):

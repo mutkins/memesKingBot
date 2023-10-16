@@ -1,4 +1,4 @@
-import logging
+from logger import log
 from db.messages import get_id_user_has_the_most_likes, get_all_chat_id
 from db.users import get_user_from_db_by_chat_id, incr_was_a_king
 from create_bot import bot
@@ -6,9 +6,6 @@ from tools import extract_user_fullname
 from datetime import datetime, timedelta
 from config import INAUGURATION_PERIOD
 import Exceptions
-logging.basicConfig(filename="main.log", level=logging.INFO, filemode="w",
-                    format="%(asctime)s %(levelname)s %(message)s")
-log = logging.getLogger("main")
 
 
 async def do_inauguration():

@@ -1,12 +1,6 @@
 import os
-import logging
+from logger import log
 from aiogram import types
-
-
-# Configure logging
-logging.basicConfig(filename="main.log", level=logging.INFO, filemode="w",
-                    format="%(asctime)s %(levelname)s %(message)s")
-log = logging.getLogger("main")
 
 
 def check_admin_rights(func):
