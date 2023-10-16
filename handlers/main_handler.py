@@ -20,13 +20,13 @@ async def collect_msgs(message: types.Message):
 
     match message.content_type:
         case 'photo':
-            await message.answer_photo(photo=file_id, caption=message.caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id))
+            await message.answer_photo(photo=file_id, caption=message.html_text, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
         case 'video':
-            await message.answer_video(video=file_id, caption=message.caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id))
+            await message.answer_video(video=file_id, caption=message.html_text, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
         case 'animation':
-            await message.answer_animation(animation=file_id, caption=message.caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id))
+            await message.answer_animation(animation=file_id, caption=message.html_text, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
         case 'document':
-            await message.answer_document(document=file_id, caption=message.caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id))
+            await message.answer_document(document=file_id, caption=message.html_text, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
     await message.delete()
 
 
