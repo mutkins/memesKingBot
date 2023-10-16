@@ -18,15 +18,19 @@ async def collect_msgs(message: types.Message):
     db_msg_id = add_msg_to_db(message_id=message.message_id, from_chat_id=message.from_user.id, date=message.date,
                               chat_id=message.chat.id, content_type=message.content_type, file_id=file_id)
 
+    if message.caption:
+        caption = message.html_text
+    else:
+        caption = None
     match message.content_type:
         case 'photo':
-            await message.answer_photo(photo=file_id, caption=message.html_text, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
+            await message.answer_photo(photo=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
         case 'video':
-            await message.answer_video(video=file_id, caption=message.html_text, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
+            await message.answer_video(video=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
         case 'animation':
-            await message.answer_animation(animation=file_id, caption=message.html_text, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
+            await message.answer_animation(animation=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
         case 'document':
-            await message.answer_document(document=file_id, caption=message.html_text, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
+            await message.answer_document(document=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
     await message.delete()
 
 
