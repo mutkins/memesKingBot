@@ -22,5 +22,5 @@ async def get_log(message: types.Message):
 
 @check_admin_rights
 async def get_db(message: types.Message):
-    file = types.InputFile('db/main.log')
+    file = types.InputFile('db/king_of_memes.db')
     await message.answer_document(file)
