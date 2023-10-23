@@ -19,3 +19,8 @@ async def get_log(message: types.Message):
     file = types.InputFile('main.log')
     await message.answer_document(file)
 
+
+@check_admin_rights
+async def get_db(message: types.Message):
+    file = types.InputFile('db/main.log')
+    await message.answer_document(file)
