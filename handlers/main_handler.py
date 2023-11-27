@@ -1,6 +1,6 @@
 from aiogram import types
 from create_bot import bot
-from db.messages import add_msg_to_db, like_db_message, get_msg_from_db_by_id
+from db.messages import add_msg_to_db, like_db_message, get_msg_from_db_by_id, add_new_message_id
 from db.likes import add_like_to_db
 from keyboards.keyboards import get_likes_kb
 from sqlalchemy.exc import IntegrityError
@@ -18,14 +18,14 @@ async def collect_msgs(message: types.Message):
     caption = await get_caption(message)
     match message.content_type:
         case 'photo':
-            await message.answer_photo(photo=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
+            new_message = await message.answer_photo(photo=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
         case 'video':
-            await message.answer_video(video=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
+            new_message = await message.answer_video(video=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
         case 'animation':
-            await message.answer_animation(animation=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
+            new_message = await message.answer_animation(animation=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
         case 'document':
-            await message.answer_document(document=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
-
+            new_message = await message.answer_document(document=file_id, caption=caption, reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
+    add_new_message_id(msg_id=db_msg_id, new_message_id=new_message.message_id)
     await message.delete()
 
 
@@ -63,9 +63,6 @@ async def collect_albums(messages: List[types.Message]):
                 outputMediaMessage.attach_document(document=file_id, caption=caption, parse_mode='HTML')
         await message.delete()
 
-    await messages[0].answer_media_group(media=outputMediaMessage)
+    new_message = await messages[0].answer_media_group(media=outputMediaMessage)
     await messages[0].answer(text='Like it?', reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
-
-
-
 

@@ -18,6 +18,7 @@ class Messages(Base):
     count_of_likes = Column(Integer)
     content_type = Column(String(250))
     file_id = Column(String(250))
+    new_message_id = Column(Integer)
 
     def __init__(self, from_chat_id, message_id, date, chat_id, content_type, file_id):
         self.id = str(chat_id) + '_' + str(message_id)
@@ -98,6 +99,37 @@ def get_all_chat_id():
         # session.expire_on_commit = False
         try:
             return session.query(Messages.chat_id).group_by(Messages.chat_id).all()
+        except exc.IntegrityError as e:
+            # return error if something went wrong
+            session.rollback()
+            log.error(e)
+            raise e
+
+
+def add_new_message_id(msg_id, new_message_id):
+    with Session(engine) as session:
+        # session.expire_on_commit = False
+        try:
+            msg = session.query(Messages).filter_by(id=msg_id).one()
+            msg.new_message_id = new_message_id
+            session.commit()
+            return msg.count_of_likes
+        except exc.IntegrityError as e:
+            # return error if something went wrong
+            session.rollback()
+            log.info(e)
+            raise e
+
+
+def get_the_most_liked_message(chat_id, date_from=None):
+    with Session(engine) as session:
+        # session.expire_on_commit = False
+        try:
+            msg = session.query(Messages.from_chat_id).filter_by(chat_id=chat_id)
+            if date_from:
+                msg = msg.filter(Messages.date >= date_from)
+            msg = msg.order_by(desc(Messages.count_of_likes)).first()
+            return msg
         except exc.IntegrityError as e:
             # return error if something went wrong
             session.rollback()
