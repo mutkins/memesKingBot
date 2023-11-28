@@ -64,5 +64,6 @@ async def collect_albums(messages: List[types.Message]):
         await message.delete()
 
     new_message = await messages[0].answer_media_group(media=outputMediaMessage)
+    add_new_message_id(msg_id=db_msg_id, new_message_id=new_message[0].message_id)
     await messages[0].answer(text='Like it?', reply_markup=get_likes_kb(db_msg_id=db_msg_id), parse_mode='HTML')
 
