@@ -125,7 +125,7 @@ def get_the_most_liked_message(chat_id, date_from=None):
     with Session(engine) as session:
         # session.expire_on_commit = False
         try:
-            msg = session.query(Messages.from_chat_id).filter_by(chat_id=chat_id)
+            msg = session.query(Messages.from_chat_id, Messages.count_of_likes, Messages.new_message_id).filter_by(chat_id=chat_id)
             if date_from:
                 msg = msg.filter(Messages.date >= date_from)
             msg = msg.order_by(desc(Messages.count_of_likes)).first()
