@@ -128,7 +128,8 @@ def get_the_most_liked_message(chat_id, date_from=None):
             msg = session.query(Messages.from_chat_id, Messages.count_of_likes, Messages.new_message_id).filter_by(chat_id=chat_id)
             if date_from:
                 msg = msg.filter(Messages.date >= date_from)
-            msg = msg.order_by(desc(Messages.count_of_likes)).first()
+            msg = msg.order_by(desc(Messages.count_of_likes)).order_by(desc(Messages.date)).first()
+
             return msg
         except exc.IntegrityError as e:
             # return error if something went wrong
