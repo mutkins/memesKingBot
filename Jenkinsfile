@@ -1,20 +1,20 @@
-import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 pipeline {
     agent any
     environment {
        tgBot_id = credentials('kin_of_memes_bot_id')
        my_chat_id = credentials('my_chat_id')
     }
+    options {
+        retry(3) 
+    }
     stages {
        stage('get dependencies'){
-
             steps {
-                script{
                 sh 'python3 -m venv ./venv'
                 sh '. venv/bin/activate'
                 sh 'pip install -r requirements.txt'
                    }
-       }
+        }
        stage('runBot'){
             steps {
                 sh 'python3 main.py'
