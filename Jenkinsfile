@@ -20,6 +20,7 @@ pipeline {
       error 'Timeout!'
            
         }
+       }
        stage('runBot'){
             steps {
                 sh 'python3 main.py'
