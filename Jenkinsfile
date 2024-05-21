@@ -10,14 +10,9 @@ pipeline {
 
             steps {
                 script{
-                    try{
                 sh 'python3 -m venv ./venv'
                 sh '. venv/bin/activate'
                 sh 'pip install -r requirements.txt'
-                    }
-                      catch (FlowInterruptedException e) {
-                      error 'Timeout!'
-                }
                    }
        }
        stage('runBot'){
