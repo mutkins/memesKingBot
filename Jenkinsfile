@@ -5,7 +5,24 @@ pipeline {
        my_chat_id = credentials('my_chat_id')
     }
     options {
-        retry(3) 
+        retry(3) {
+
+  try {
+
+      timeout(time: 5, unit: 'MINUTES') {
+
+        // something that can fail
+
+      } // timeout ends
+
+  } catch (FlowInterruptedException e) {
+      // we re-throw as a different error, that would not 
+      // cause retry() to fail (workaround for issue JENKINS-51454)
+      error 'Timeout!'
+
+  } // try ends
+
+} // retry ends 
     }
     stages {
        stage('get dependencies'){
