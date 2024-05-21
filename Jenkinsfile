@@ -6,23 +6,24 @@ pipeline {
        my_chat_id = credentials('my_chat_id')
     }
     stages {
-        try{
        stage('get dependencies'){
+           try{
             steps {
                 sh 'python3 -m venv ./venv'
                 sh '. venv/bin/activate'
                 sh 'pip install -r requirements.txt'
                    }
+           }
+    catch (FlowInterruptedException e) {
+      // we re-throw as a different error, that would not 
+      // cause retry() to fail (workaround for issue JENKINS-51454)
+      error 'Timeout!'
+           
         }
        stage('runBot'){
             steps {
                 sh 'python3 main.py'
                    }
-        }
-        }
-        catch(e){
-        currentBuild.result = "FAILURE"
-        println("catch exeption. currentBuild.result: ${currentBuild.result}")
         }
     }
 
