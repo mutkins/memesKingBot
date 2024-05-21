@@ -5,27 +5,8 @@ pipeline {
        tgBot_id = credentials('kin_of_memes_bot_id')
        my_chat_id = credentials('my_chat_id')
     }
-    options {
-        retry(3) {
-
-  try {
-
-      timeout(time: 5, unit: 'MINUTES') {
-
-        // something that can fail
-
-      } // timeout ends
-
-  } catch (FlowInterruptedException e) {
-      // we re-throw as a different error, that would not 
-      // cause retry() to fail (workaround for issue JENKINS-51454)
-      error 'Timeout!'
-
-  } // try ends
-
-} // retry ends 
-    }
     stages {
+        try{
        stage('get dependencies'){
             steps {
                 sh 'python3 -m venv ./venv'
@@ -37,6 +18,11 @@ pipeline {
             steps {
                 sh 'python3 main.py'
                    }
+        }
+        }
+        catch(e){
+        currentBuild.result = "FAILURE"
+        println("catch exeption. currentBuild.result: ${currentBuild.result}")
         }
     }
 
