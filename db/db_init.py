@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 # Declarative method
-engine = create_engine("sqlite:////var/lib/jenkins/jobs_db/king_of_memes.db", echo=True)
+engine = create_engine("sqlite:////etc/tg_bots/data/king_of_memes.db", echo=True)
 Base = declarative_base()
 
 
