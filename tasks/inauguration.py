@@ -31,7 +31,7 @@ async def do_inauguration():
                                                          f'-------------------------------------------------------------------------------------------\n'
                                                         f'🥳🥳🥳🥳🥳🥳🎉🎉🎉🎉🎉🎉🎂🎂🎂🎂🎂🎂\n', parse_mode='HTML')
             chat = await bot.get_chat(chat_id=chat_id)
-            await chat.set_title(f'ЦТ Король мемов {fullname}')
+            await chat.set_title(f'Король мемов {fullname}')
             await asyncio.sleep(60)
             fullname, count_of_likes, new_message_id = await get_the_most_liked_msg(chat_id=chat_id)
             await bot.send_message(chat_id=chat_id, text=f'☝☝☝☝☝☝☝☝ А ТАКЖЕ ☝☝☝☝☝☝☝☝  ️\n'
