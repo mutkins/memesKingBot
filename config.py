@@ -1,4 +1,5 @@
 INAUGURATION_PERIOD = 7
 INAUGURATION_DAY = 'sunday'
 INAUGURATION_TIME = '21:00'
-PROXY = 'socks5://localhost:1080'
+PROXY = None
+# PROXY = 'socks5://localhost:1080'
